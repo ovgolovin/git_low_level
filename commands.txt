@@ -1,0 +1,17 @@
+git init
+echo 'Contents of foo!' >foo.txt
+cp ../apple.png ./
+git hash-object -w foo.txt   #adding to object folder
+git hash-object -w apple.png   #adding to object folder
+git update-index --add --cacheinfo 100644 50983081d29ff15abcc3bc9b915f746e34b    #put file to index by hash
+git update-index --add --cacheinfo 100644 c600c268eb89442d54286b61ad2ecf5f257    #put file to index by hash
+git write-tree    #writing staged files from index to tree-object
+git rm --cached apple.png    #removing file from index
+git rm --cached foo.txt    #removing file from index
+git read-tree --prefix=dir1 6e88584243f1cfd9f5cc6c85a669e117231bac22    #reading above tree into stagin area
+git write-tree    #write the staged area into a new tree
+echo 'First commit' | git commit-tree 70f218d14c978fac3ec202f01197746787b60f5    #commiting this tree object
+git update-ref refs/heads/master 9672a1    # putting branch pointer to the commit
+git remote add origin git@github.com:ovgolovin/git_low_level.git    #adding remote of github
+git pull origin master    #pulling files from github (otherwise won't commit asking for merge)
+git push origin master    #pushing to gitgub
