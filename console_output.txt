@@ -1,0 +1,142 @@
+Console output
+=============
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level
+$ git init
+Initialized empty Git repository in c:/Xubuntu_shared/git_low_level/.git/
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ echo 'Contents of foo!' >foo.txt
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ cp ../apple.png ./
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ ls -A
+.git  apple.png  foo.txt
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git hash-object -w foo.txt
+c600c268eb89442d54286b61ad2ecf5f2575c355
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git hash-object -w apple.png
+50983081d29ff15abcc3bc9b915f746e34bccc2a
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git update-index --add --cacheinfo 100644 50983081d29ff15abcc3bc9b915f746e34b
+ccc2a apple.png
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git update-index --add --cacheinfo 100644 c600c268eb89442d54286b61ad2ecf5f257
+5c355 foo.txt
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git write-tree
+6e88584243f1cfd9f5cc6c85a669e117231bac22
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#       new file:   apple.png
+#       new file:   foo.txt
+#
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git rm --cached apple.png
+rm 'apple.png'
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git rm --cached foo.txt
+rm 'foo.txt'
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git status
+# On branch master
+#
+# Initial commit
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       apple.png
+#       foo.txt
+nothing added to commit but untracked files present (use "git add" to track)
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git read-tree --prefix=dir1 6e88584243f1cfd9f5cc6c85a669e117231bac22
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git status
+# On branch master
+#
+# Initial commit
+#
+# Changes to be committed:
+#   (use "git rm --cached <file>..." to unstage)
+#
+#       new file:   dir1/apple.png
+#       new file:   dir1/foo.txt
+#
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       deleted:    dir1/apple.png
+#       deleted:    dir1/foo.txt
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       apple.png
+#       foo.txt
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git write-tree
+70f218d14c978fac3ec202f01197746787b60f59
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ echo 'First commit' | git commit-tree 70f218d14c978fac3ec202f01197746787b60f5
+9
+9672a14df587d8919690aef0be4f72ae6d99ec67
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git log 9672a1
+commit 9672a14df587d8919690aef0be4f72ae6d99ec67
+Author: ovgolovin <ovgolovin@gmail.com>
+Date:   Tue Jan 22 02:11:00 2013 +0400
+
+    First commit
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git update-ref refs/heads/master 9672a1
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git remote add origin git@github.com:ovgolovin/git_low_level.git
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git pull origin master
+Enter passphrase for key '/c/Documents and Settings/Oleg/.ssh/id_rsa':
+From github.com:ovgolovin/git_low_level
+ * branch            master     -> FETCH_HEAD
+Merge made by the 'recursive' strategy.
+ README.md |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+ create mode 100644 README.md
+
+Oleg@OLEG-PC /C/Xubuntu_shared/git_low_level (master)
+$ git push origin master
+Enter passphrase for key '/c/Documents and Settings/Oleg/.ssh/id_rsa':
+Counting objects: 8, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (7/7), 107.09 KiB, done.
+Total 7 (delta 0), reused 0 (delta 0)
+To git@github.com:ovgolovin/git_low_level.git
+   4c253f1..875623a  master -> master
