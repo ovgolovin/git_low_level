@@ -14,4 +14,4 @@ echo 'First commit' | git commit-tree 70f218d14c978fac3ec202f01197746787b60f5   
 git update-ref refs/heads/master 9672a1    # putting branch pointer to the commit
 git remote add origin git@github.com:ovgolovin/git_low_level.git    #adding remote of github
 git pull origin master    #pulling files from github (otherwise won't commit asking for merge)
-git push origin master    #pushing to gitgub
+git push origin master    #pushing to github
